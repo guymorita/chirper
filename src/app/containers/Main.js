@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import {
   Button,
+  Image,
   StyleSheet,
   Text,
   View
@@ -9,6 +10,10 @@ import {
 import { connect } from 'react-redux'
 import NavigationBar from 'react-native-navbar'
 import Drawer from 'react-native-drawer'
+
+import TweetListView from '../components/TweetListView'
+
+import { fetchTweets } from '../actions/tweets'
 
 class Main extends Component {
   leftButtonConfig = {
@@ -29,8 +34,12 @@ class Main extends Component {
   }
 
   toggleHamburger() {
-    console.log('toggling')
     this._drawer._open ? this.closeDrawer() : this.openDrawer()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { dispatch } = nextProps
+    dispatch(fetchTweets())
   }
 
   render() {
@@ -39,14 +48,16 @@ class Main extends Component {
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}
-        content={<Profile closeDrawer={this.closeDrawer}/>}
+        content={<Profile closeDrawer={this.closeDrawer} auth={auth}/>}
         openDrawerOffset={100}
         >
         <View style={styles.container}>
           <NavigationBar
             title={this.titleConfig}
+            containerStyle={styles.navbar}
             leftButton={this.leftButtonConfig}
           />
+          <TweetListView />
         </View>
       </Drawer>
     );
@@ -54,6 +65,9 @@ class Main extends Component {
 }
 
 const styles = StyleSheet.create({
+  navbar: {
+    backgroundColor: '#68A8E8',
+  },
 })
 
 class Profile extends Component {
@@ -61,16 +75,42 @@ class Profile extends Component {
     this.props.closeDrawer()
   }
   render() {
+    const { auth } = this.props
+    const { user } = auth
+
     return (
       <View style={drawerStyles.container}>
+        <NavigationBar
+          title={this.titleConfig}
+          containerStyle={styles.navbar}
+        />
         <View>
           <Button
             onPress={this.close.bind(this)}
             title={'Close'}
+            color={'#555'}
           />
-          <Text>
-            Profile
-          </Text>
+          {user &&
+            <View style={drawerStyles.profile}>
+              <View style={drawerStyles.left}>
+                <Image
+                  style={drawerStyles.image}
+                  source={{uri: user.profile_image_url_https}}
+                />
+              </View>
+              <View style={drawerStyles.right}>
+                <Text style={drawerStyles.name}>
+                  {user.name}
+                </Text>
+                <Text style={drawerStyles.handle}>
+                  @{user.screen_name}
+                </Text>
+                <Text style={drawerStyles.location}>
+                  {user.location}
+                </Text>
+              </View>
+            </View>
+          }
         </View>
       </View>
 
@@ -80,11 +120,41 @@ class Profile extends Component {
 
 const drawerStyles = StyleSheet.create({
   container: {
-    backgroundColor: '#4E4E4E',
+    backgroundColor: '#EDF3F6',
     flex: 1
+  },
+  closeButton: {
+    color: 'blue'
+  },
+  profile: {
+    flexDirection: 'row'
+  },
+  left: {
+    flex: 0.3,
+    padding: 10
+  },
+  image: {
+    height: 80,
+    width: 80,
+    borderRadius: 5
+  },
+  right: {
+    flex: 0.7,
+    padding: 10
+  },
+  name: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    marginTop: 10
+  },
+  handle: {
+    color: '#444'
+  },
+  location: {
+
   }
 })
-
 
 const mapStateToProps = function(state) {
   const { auth } = state

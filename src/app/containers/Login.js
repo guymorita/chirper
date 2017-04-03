@@ -37,13 +37,6 @@ class Login extends Component {
 
   }
 
-  componentDidMount() {
-    var url = Linking.getInitialURL().then((url) => {
-      if (url) {
-        console.log('Initial url is: ' + url);
-      }
-    }).catch(err => console.error('An error occurred', err));
-  }
   render() {
     return (
       <View style={styles.container}>
