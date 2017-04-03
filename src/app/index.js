@@ -15,26 +15,14 @@ export default class App extends Component {
         index: 0,
       },
       {
-        title: 'Details',
-        index: 1,
-      },
-      {
-        title: 'Filter',
-        index: 2,
-      },
-      {
-        title: 'Map',
-        index: 3,
-      },
-      {
         title: 'Login',
-        index: 4
+        index: 1
       }
     ]
 
     return (
       <Navigator
-        initialRoute={routes[4]}
+        initialRoute={routes[1]}
         initialRouteStack={routes}
         renderScene={this.renderScene.bind(this)}
       />

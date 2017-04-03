@@ -8,11 +8,12 @@ import {
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-// import { fetchTokenIfNeeded } from '../actions/auth'
-// import { fetchReviewsIfNeeded } from '../actions/reviews'
 
 class Main extends Component {
   render() {
+    const { auth } = this.props
+    console.log('auth', auth)
+    // alert(auth && auth.credentials && auth.credentials.stringify())
     return (
       <View>
         <Text>
@@ -25,5 +26,9 @@ class Main extends Component {
 const styles = StyleSheet.create({
 })
 
+const mapStateToProps = function(state) {
+  const { auth } = state
+  return { auth }
+}
 
-export default connect()(Main)
+export default connect(mapStateToProps)(Main)
