@@ -2,9 +2,11 @@
 import React, { Component } from 'react'
 import {
   Button,
+  Image,
   Linking,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -38,17 +40,16 @@ class Login extends Component {
   }
 
   render() {
+    const image = require('./b.png')
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Yalp
-        </Text>
         <View>
-          <Button
-            onPress={this._onLoginPress}
-            title="Login"
-            color="#841584"
-          />
+          <TouchableOpacity onPress={this._onLoginPress}>
+            <Image
+              style={styles.bird}
+              source={image}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -57,10 +58,16 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center'
   },
   title: {
     fontSize: 80,
     color: 'white'
+  },
+  bird: {
+    marginTop: 200,
+    height: 200,
+    width: 200
   }
 })
 

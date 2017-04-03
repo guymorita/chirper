@@ -16,7 +16,7 @@ export default class TweetListViewCell extends Component {
   render() {
     const { rowData } = this.props
     const { user } = rowData
-    console.log('rowData', rowData)
+
     return (
       <View style={styles.container}>
         <View style={styles.leftCol}>

@@ -38,7 +38,6 @@ export function fetchTweets() {
 
     return fetch(request)
       .then(response => {
-        console.log('response', response)
         return response.json()
       })
       .then(json => {

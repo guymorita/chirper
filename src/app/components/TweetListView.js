@@ -19,7 +19,7 @@ class TweetListView extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { tweets } = nextProps
-    console.log('tweets', tweets)
+
     this.setState({
       dataSource: this.state.ds.cloneWithRows(tweets)
     })
